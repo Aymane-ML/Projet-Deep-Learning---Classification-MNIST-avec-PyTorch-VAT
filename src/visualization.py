@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 
-def show_one_image_per_label(
-    dataset: Iterable[Tuple[Any, int]]
-) -> None:
+def show_one_image_per_label(dataset: Iterable[Tuple[Any, int]]) -> None:
     """Affiche une image pour chaque étiquette (0 à 9) à partir d’un dataset.
     Utile pour valider visuellement la diversité des classes dans
     l'ensemble de données.
@@ -28,17 +26,16 @@ def show_one_image_per_label(
             break
     plt.figure(figsize=(10, 5))
     for i, (image, label) in enumerate(images_to_show):
-        plt.subplot(2, 5, i+1)
-        plt.imshow(image.squeeze(), cmap='gray')
+        plt.subplot(2, 5, i + 1)
+        plt.imshow(image.squeeze(), cmap="gray")
         plt.title(f"Label: {label}")
-        plt.axis('off')
+        plt.axis("off")
     plt.tight_layout()
     plt.show()
 
 
 def plot_data_distribution(
-    dataset: List[Tuple[np.ndarray, int]],
-    title: str = "Répartition des données"
+    dataset: List[Tuple[np.ndarray, int]], title: str = "Répartition des données"
 ) -> None:
     """Affiche un histogramme représentant la répartition des classes
     dans un dataset. Permet de détecter rapidement d’éventuels déséquilibres
@@ -56,7 +53,7 @@ def plot_data_distribution(
     labels = [label for _, label in dataset]
     label_counts = Counter(labels)
     plt.figure(figsize=(10, 5))
-    plt.bar(label_counts.keys(), label_counts.values(), color='skyblue')
+    plt.bar(label_counts.keys(), label_counts.values(), color="skyblue")
     plt.title(title)
     plt.xlabel("Classe")
     plt.ylabel("Nombre d'exemples")

@@ -11,7 +11,7 @@ def train(
     optimizer: Optimizer,
     alpha: float = 1.0,
     epochs: int = 10,
-    device: str = 'cpu'
+    device: str = "cpu",
 ) -> None:
     """Entraîne un modèle avec apprentissage semi-supervisé
     (Virtual Adversarial Training).
@@ -31,15 +31,14 @@ def train(
     for epoch in range(epochs):
         total_loss = 0
         for (x_labeled, y_labeled), (x_unlabeled, _) in zip(
-            labeled_loader,
-            unlabeled_loader
+            labeled_loader, unlabeled_loader
         ):
             x_labeled, y_labeled = x_labeled.to(device), y_labeled.to(device)
             x_unlabeled = x_unlabeled.to(device)
             y_pred = model(x_labeled)
             supervised_loss = criterion(y_pred, y_labeled)
             vat_loss = virtual_adversarial_loss(model, x_unlabeled)
-            loss = supervised_loss+alpha*vat_loss
+            loss = supervised_loss + alpha * vat_loss
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()

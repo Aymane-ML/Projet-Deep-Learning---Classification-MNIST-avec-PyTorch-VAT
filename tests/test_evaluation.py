@@ -8,24 +8,18 @@ class DummyModel(nn.Module):
     """Modèle factice pour tester les fonctions d'évaluation.
     Simule un classifieur MNIST avec une couche linéaire simple.
     """
-    def __init__(
-        self
-    ) -> None:
+
+    def __init__(self) -> None:
         super().__init__()
         self.flatten = nn.Flatten()
-        self.fc = nn.Linear(28*28, 10)  # 10 classes (MNIST)
+        self.fc = nn.Linear(28 * 28, 10)  # 10 classes (MNIST)
 
-    def forward(
-        self,
-        x: torch.Tensor
-    ) -> torch.Tensor:
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.flatten(x)
         return self.fc(x)
 
 
-def get_fake_mnist_loader(
-    num_samples: int = 32
-) -> DataLoader:
+def get_fake_mnist_loader(num_samples: int = 32) -> DataLoader:
     """
     Crée un DataLoader factice avec des données aléatoires au format MNIST.
 
@@ -41,9 +35,7 @@ def get_fake_mnist_loader(
     return DataLoader(dataset, batch_size=8)
 
 
-def test_evaluate_prints_accuracy(
-    capfd
-) -> None:
+def test_evaluate_prints_accuracy(capfd) -> None:
     """
     Teste si evaluate(...) affiche bien un texte contenant la précision.
     """

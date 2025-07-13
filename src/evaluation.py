@@ -6,13 +6,11 @@ from torch.utils.data import DataLoader
 from typing import Tuple
 import numpy.typing as npt
 from sklearn.metrics import confusion_matrix, classification_report
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def evaluate(
-    model: nn.Module,
-    test_loader: DataLoader
-) -> None:
+def evaluate(model: nn.Module, test_loader: DataLoader) -> None:
     """
     Évalue la précision brute du modèle sur un jeu de test.
 
@@ -33,13 +31,12 @@ def evaluate(
             _, predicted = torch.max(outputs.data, 1)
             total += y.size(0)
             correct += (predicted == y).sum().item()
-    accuracy = 100*correct/total
+    accuracy = 100 * correct / total
     print(f"Précision sur les données de test : {accuracy:.2f}%")
 
 
 def evaluate_metrics(
-    model: nn.Module,
-    test_loader: DataLoader
+    model: nn.Module, test_loader: DataLoader
 ) -> Tuple[npt.NDArray, str]:
     """Calcule la matrice de confusion et le rapport de classification
     (F1, précision, rappel).
@@ -73,9 +70,7 @@ def evaluate_metrics(
 
 
 def visualize_errors(
-    model: nn.Module,
-    test_loader: DataLoader,
-    num_errors: int = 10
+    model: nn.Module, test_loader: DataLoader, num_errors: int = 10
 ) -> None:
     """
     Affiche des exemples d’erreurs de classification du modèle.
@@ -97,19 +92,17 @@ def visualize_errors(
             _, predicted = torch.max(outputs, 1)
             for i in range(len(labels)):
                 if predicted[i] != labels[i]:
-                    errors.append((
-                        inputs[i].cpu(),
-                        predicted[i].cpu(),
-                        labels[i].cpu()
-                    ))
+                    errors.append(
+                        (inputs[i].cpu(), predicted[i].cpu(), labels[i].cpu())
+                    )
     if not errors:
         print("Aucune erreur de classification détectée.")
         return
     plt.figure(figsize=(10, 5))
     for i, (image, pred, true) in enumerate(errors[:num_errors]):
-        plt.subplot(2, 5, i+1)
-        plt.imshow(image.squeeze(), cmap='gray')
+        plt.subplot(2, 5, i + 1)
+        plt.imshow(image.squeeze(), cmap="gray")
         plt.title(f"Préd : {pred}, Vrai : {true}")
-        plt.axis('off')
+        plt.axis("off")
     plt.tight_layout()
     plt.show()

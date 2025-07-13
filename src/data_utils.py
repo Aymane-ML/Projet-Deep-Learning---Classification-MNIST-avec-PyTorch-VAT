@@ -6,9 +6,7 @@ from torch.utils.data import DataLoader, Subset
 
 
 def load_mnist_data(
-    data_dir: str,
-    labeled_fraction: float = 0.1,
-    batch_size: int = 64
+    data_dir: str, labeled_fraction: float = 0.1, batch_size: int = 64
 ) -> Tuple[DataLoader, DataLoader, DataLoader]:
     """Charge les données MNIST et les sépare en données
     étiquetées/non étiquetées/test.
@@ -25,21 +23,14 @@ def load_mnist_data(
                 - DataLoader des données non étiquetées,
                 - DataLoader des données de test.
     """
-    transform = transforms.Compose([
-        Lambda(lambda x: x.convert("L")),
-        transforms.ToTensor()
-    ])
+    transform = transforms.Compose(
+        [Lambda(lambda x: x.convert("L")), transforms.ToTensor()]
+    )
     full_train = datasets.MNIST(
-        data_dir,
-        train=True,
-        download=True,
-        transform=transform
+        data_dir, train=True, download=True, transform=transform
     )
     test_dataset = datasets.MNIST(
-        data_dir,
-        train=False,
-        download=True,
-        transform=transform
+        data_dir, train=False, download=True, transform=transform
     )
     indices = list(range(len(full_train)))
     random.shuffle(indices)
@@ -48,19 +39,7 @@ def load_mnist_data(
     unlabeled_indices = indices[split:]
     labeled_subset = Subset(full_train, labeled_indices)
     unlabeled_subset = Subset(full_train, unlabeled_indices)
-    labeled_loader = DataLoader(
-        labeled_subset,
-        batch_size=batch_size,
-        shuffle=True
-    )
-    unlabeled_loader = DataLoader(
-        unlabeled_subset,
-        batch_size=batch_size,
-        shuffle=True
-    )
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=batch_size,
-        shuffle=False
-    )
+    labeled_loader = DataLoader(labeled_subset, batch_size=batch_size, shuffle=True)
+    unlabeled_loader = DataLoader(unlabeled_subset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     return labeled_loader, unlabeled_loader, test_loader
