@@ -39,13 +39,44 @@ class SimpleCNNWithDropout(nn.Module):
         return self.fc2(x)
 
 
+class PretrainedResNetForMNIST(nn.Module):
+    """
+    Adaptation de ResNet-18 préentraîné pour la classification d'images MNIST.
+
+    Modifications :
+    - Première couche ajustée pour les images en niveaux de gris (1 canal).
+    - Dernière couche (fully connected) modifiée pour 10 classes.
+    """
+
+    def __init__(self) -> None:
+        super(PretrainedResNetForMNIST, self).__init__()
+        self.resnet = models.resnet18(pretrained=True)
+        self.resnet.conv1 = nn.Conv2d(
+            1, 64, kernel_size=7, stride=2, padding=3, bias=False
+        )
+        num_ftrs = self.resnet.fc.in_features
+        self.resnet.fc = nn.Linear(num_ftrs, 10)
+
+    def forward(self, x: Tensor) -> Tensor:
+        """
+        Propagation avant.
+
+        Args:
+            x (Tensor): Image d'entrée (batch_size, 1, 28, 28).
+
+        Returns:
+            Tensor: Logits de sortie (batch_size, 10).
+        """
+        return self.resnet(x)
+
+
 class PretrainedMobileNetForMNIST(nn.Module):
     """Adaptation de MobileNetV2 préentraîné pour la classification MNIST
     (images 1 canal, 10 classes).
 
     Modifications :
     - Première couche modifiée pour accepter des images en niveaux de gris
-    (1 canal).
+      (1 canal).
     - Dernière couche remplacée par un classifieur adapté à MNIST.
     """
 
