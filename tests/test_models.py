@@ -53,8 +53,8 @@ def test_model_forward_pass_no_error() -> None:
     x = torch.randn(2, 1, 28, 28)
     for model in models:
         try:
-            output = model(x)
+            _ = model(x)
         except Exception as e:
             raise AssertionError(
-                f"Erreur lors du forward pass avec {model.__class__.__name__}: {e}"
+                f"Erreur forward avec {model.__class__.__name__}: {e}"
             )

@@ -20,7 +20,7 @@ Le projet comprend :
 
 - **`src/`** : Code source principal avec les modules pour la gestion des données, la définition des modèles, l’entraînement avec VAT, et l’implémentation de la Virtual Adversarial Training.
 - **`tests/`** : Tests unitaires réalisés avec `pytest` pour valider chaque composant.
-- **`notebooks/Projet_deep_learning.ipynb`** : Notebook Jupyter illustrant le pipeline complet, de la préparation des données à l’évaluation.
+- **`notebooks/** : Notebooks Jupyter illustrant le pipeline complet, de la préparation des données à l’évaluation.
 - **`best_model.pth`** : Poids sauvegardés du meilleur modèle entraîné.
 - **`.github/workflows/ci.yml`** : Configuration GitHub Actions pour l’intégration continue (tests et linting).
 - **`Dockerfile`** : Environnement Docker assurant la portabilité et la reproductibilité.
