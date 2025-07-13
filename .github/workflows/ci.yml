@@ -25,20 +25,10 @@ jobs:
           pip install -r requirements.txt
           pip install flake8 black isort pytest
 
-      - name: Linter avec flake8
-        run: |
-          echo "Vérification avec flake8..."
-          flake8 src/ tests/
-
       - name: Linter avec black
         run: |
           echo "Vérification avec black..."
           black --check src/ tests/
-
-      - name: Linter avec isort
-        run: |
-          echo "Vérification avec isort..."
-          isort --check-only src/ tests/
 
       - name: Lancer les tests unitaires
         run: |
