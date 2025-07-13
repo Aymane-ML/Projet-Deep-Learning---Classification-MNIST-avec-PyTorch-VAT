@@ -33,4 +33,5 @@ jobs:
       - name: Lancer les tests unitaires
         run: |
           echo "Lancement des tests unitaires..."
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/src
           pytest --maxfail=1 --disable-warnings -q
